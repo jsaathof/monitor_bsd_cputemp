@@ -94,3 +94,50 @@ sub send_data {
 
 	return(0, [], undef);
 }
+
+__END__
+
+=head1 NAME
+
+monitor_bsd_cputemp.pl - Monitor CPU temperatures on FreeBSD systems
+
+=head1 SYNOPSYS
+
+	monitor_bsd_cputemp.pl
+
+=head1 DESCRIPTION
+
+This script gathers CPU temperature information and sends it via UDP to an
+Influx time-series database. The data in the InfluxDB can be visualized in
+different ways like Grafana and Influx' own Chronograf.
+
+The data is formatted specifically for the IndluxDB in the line protocol format.
+The line protocol supports tags to add information to the values. The hostname
+and the CPU (or core) ID are added as tags.
+
+The address and port of the InfluxDB server is configured in the hash for the
+settings at the top of the script. The influxDB database should be configured to
+accept data over UDP. See the InfluxDB documentation on how to do this.
+
+=head1 NOTES
+
+This software has been tested on FreeNAS 9.10. It should work with other FreeBSD
+versions and maybe even on other BSD versions supporting sysctl and temperature
+monitoring (also depends on CPU).
+
+=head1 AUTHOR
+
+Jurriaan Saathof <jurriaan@xenophobia.nl>
+
+=head1 COPYRIGHT
+Copyright 2016 Jurriaan Saathof
+
+=head1 SEE ALSO
+
+IO::Socket::INET(3pm), Sys::Hostname{3pm}
+https://www.influxdata.com/time-series-platform/
+http://grafana.org
+http://www.freenas.org
+
+=cut
+
