@@ -42,7 +42,7 @@ sub get_cpuinfo {
 
 		# Format the output
 		chomp($temp);
-		$temp =~ s/[FC]$//;
+		$temp =~ s/C$//;
 
 		$data{$cpu_id}->{'temp'} = $temp;
 	}
@@ -63,7 +63,7 @@ sub create_lineprotocol {
 
 		my @data;
 		my @tags = (
-			'cpu_temp',
+			"cpu_temp",
 			"cpu_id=$cpu_id",
 			"host_name=$hostname",
 		);
@@ -84,8 +84,8 @@ sub send_data {
 	my $data_ref = shift;
 
 	my $socket = new IO::Socket::INET (
-		PeerAddr	=> $settings_ref->{"influxdb"}->{"address"},
-		PeerPort	=> $settings_ref->{"influxdb"}->{"port"},
+		PeerAddr	=> $settings_ref->{'influxdb'}->{'address'},
+		PeerPort	=> $settings_ref->{'influxdb'}->{'port'},
 		Proto		=> 'udp',
 	) or return(1, [ "cannot create socket: $@" ]);
 
