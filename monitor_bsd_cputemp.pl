@@ -103,6 +103,10 @@ __END__
 
 monitor_bsd_cputemp.pl - Monitor CPU temperatures on FreeBSD systems
 
+=head1 VERSION
+
+Version 1.0 (September 2016)
+
 =head1 SYNOPSYS
 
 	monitor_bsd_cputemp.pl
