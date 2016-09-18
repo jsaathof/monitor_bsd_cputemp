@@ -21,9 +21,11 @@ sub main {
 	my $settings_ref = shift;
 
 	my $cpuinfo_ref = get_cpuinfo();
-	send_data($settings_ref, $cpuinfo_ref);
+	(my $result, my $message_ref) = send_data($settings_ref, $cpuinfo_ref);
 
-	return;
+	print join(", ", @{$message_ref}) . "\n";
+
+	return($result);
 }
 
 sub get_cpuinfo {
@@ -82,17 +84,17 @@ sub send_data {
 	my $data_ref = shift;
 
 	my $socket = new IO::Socket::INET (
-		PeerAddr    => $settings_ref->{"influxdb"}->{"address"},
+		PeerAddr	=> $settings_ref->{"influxdb"}->{"address"},
 		PeerPort	=> $settings_ref->{"influxdb"}->{"port"},
-		Proto       => 'udp',
-	) or return(1, [ "cannot create socket: $@" ], undef);
+		Proto		=> 'udp',
+	) or return(1, [ "cannot create socket: $@" ]);
 
 	my $lineprotocol = create_lineprotocol($data_ref);
 
 	$socket->send($lineprotocol);
 	$socket->close;
 
-	return(0, [], undef);
+	return(0, []);
 }
 
 __END__
@@ -130,6 +132,7 @@ monitoring (also depends on CPU).
 Jurriaan Saathof <jurriaan@xenophobia.nl>
 
 =head1 COPYRIGHT
+
 Copyright 2016 Jurriaan Saathof
 
 =head1 SEE ALSO
